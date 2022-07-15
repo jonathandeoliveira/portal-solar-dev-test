@@ -14,4 +14,10 @@ class PowerGenerator < ApplicationRecord
     trapezoidal
   ]
 
+  def cubic_weight_calculator
+    weight_factor = 300
+    result = (height*width*lenght)/weight_factor
+    return result
+  end
+
 end

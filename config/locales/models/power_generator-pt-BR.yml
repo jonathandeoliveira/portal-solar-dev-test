@@ -1,0 +1,25 @@
+pt-BR:
+  activerecord:
+    models:
+      power_generator:
+        one: "Gerador de Energia"
+        other: "Geradores de Energia"
+    attributes:
+      power_generator:
+        name: "Nome"
+        description: "Descrição"
+        manufacturer: "Fabricante"
+        price: "Preço"
+        height: "Altura"
+        width: "Largura"
+        lenght: "Comprimento"
+        weight: "Peso"
+        kwp: "quilowatt pico"
+        cubic_weight: "Peso cubado"
+        structure_type: "Tipo de estrutura"
+        metalico: "Metálico"
+        ceramico: "Cerâmico"
+        fibrocimento: "Fibrocimento"
+        laje: "Laje"
+        solo: "Solo"
+        trapezoidal: "Trapezoidal"
