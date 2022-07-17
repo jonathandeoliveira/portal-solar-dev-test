@@ -15,9 +15,10 @@ class PowerGenerator < ApplicationRecord
   ]
 
   def cubic_weight_calculator
+    return if self.cubic_weight.present?
     weight_factor = 300
-    result = (height*width*lenght)/weight_factor
-    return puts result
+    self.cubic_weight = (height*width*lenght * weight_factor)
+    self.save
   end
 
 end

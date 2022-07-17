@@ -3,93 +3,48 @@ class PowerGeneratorsController < ApplicationController
     @power_generators = ((((PowerGenerator.order(price: :asc)).order(name: :asc)).order(kwp: :asc)).page params[:page]).per(6)
   end
 
+  def show
+    @power_generator = PowerGenerator.find(params[:id])
+    @power_generator.cubic_weight_calculator
+  end
+
+  def check_freight
+    @power_generator = PowerGenerator.find(params[:power_generator_id])
+    @state = CheckCep.check_api(params[:cep])
+    binding.pry
+  end
+
+
+
   def search
     @simple_search = params[:query]
     if params[:query].present?
-      @simple_search = @simple_search.downcase
-      @power_generators = simple_query
+      @power_generators = SimpleQuery.call(@simple_search)
       return render '/power_generators/search'
     end
     if @simple_search.nil?
       @advanced_search = params
       if @advanced_search.present?
-         binding.pry
-        @power_generators = advanced_query
+        @power_generators = AdvancedQuery.call(@advanced_search)
         return render '/power_generators/search'
       end
     else
-      redirect_to root_path
+      redirect_to root_path, notice: 'Campo de pesquisa em branco'
     end
-    
   end
+end
 
-  private
+private 
 
-  def simple_query
-    PowerGenerator.where("lower(name) LIKE '%#{ @simple_search}%' OR lower(description) LIKE '%#{ @simple_search}%' OR lower(manufacturer) LIKE '%#{ @simple_search}%'")
+def check_best
+  @power = params
+  binding.pry
+  @power_generator = @power_generator
+  if @power_generator.weight >= @power_generator.cubic_weight
+    @best_freight = Freight.where("state LIKE '%#{@state}%' AND weight_min <= '#{@power_generator.weight}' AND weight_max >= '#{@power_generator.weight}'")
   end
-
-
-  def advanced_query
-    @structure = @advanced_search[:structure_type]
-
-    if @advanced_search[:structure_type].present? && @advanced_search[:name].empty? && @advanced_search[:manufacturer].empty?
-      query = PowerGenerator.where(structure_type: @structure)
-    end
-
-    if @advanced_search[:structure_type].present? && @advanced_search[:structure_type] == "metalico"
-      query = PowerGenerator.where("#{add_to_advanced_query}").metalico
-
-    elsif @advanced_search[:structure_type].present? && @advanced_search[:structure_type] == "ceramico"
-      query = PowerGenerator.where("#{add_to_advanced_query}").ceramico
-
-    elsif @advanced_search[:structure_type].present? && @advanced_search[:structure_type] == "fibrocimento"
-      query= PowerGenerator.where("#{add_to_advanced_query}").fibrocimento
-
-    elsif @advanced_search[:structure_type].present? && @advanced_search[:structure_type] == "laje"
-      query = PowerGenerator.where("#{add_to_advanced_query}").laje
-
-    elsif @advanced_search[:structure_type].present? && @advanced_search[:structure_type] == "solo"
-      query =PowerGenerator.where("#{add_to_advanced_query}").solo
-
-    elsif @advanced_search[:structure_type].present? && @advanced_search[:structure_type] == "trapezoidal"
-      query = PowerGenerator.where("#{add_to_advanced_query}").trapezoidal
-    end
-
-    if @advanced_search[:structure_type].present? == false
-      query = PowerGenerator.where("#{add_to_advanced_query}")
-    end
-    query
-  end
-  
-
-  def add_to_advanced_query
-    @structure = @advanced_search[:structure_type]
-    conditions = []
-    if @advanced_search[:name].present?
-      conditions << "name LIKE '%#{@advanced_search[:name]}%'"
-      if @advanced_search[:manufacturer].present? 
-        conditions << "manufacturer LIKE '%#{@advanced_search[:manufacturer]}%'"
-      end
-    end
-    if @advanced_search[:manufacturer].present? && @advanced_search[:name].empty?
-      conditions << "manufacturer LIKE '%#{@advanced_search[:manufacturer]}%'"
-    end
-    conditions.join(' AND ')
-  end
-
-  def alternative_query
-    <<-QUERY
-    #{advanced_where_conditionals}
-    QUERY
-  end
-
-  def advanced_where_conditionals
-    conditionals = []
-    if @advanced_search[:name].present?
-      conditionals << "name LIKE '%#{@advanced_search[:name]}%'"
-    end
-    conditionals.join(' AND ')
+  if @power_generator.weight <= @power_generator.cubic_weight
+    @best_freight = Freight.where("state LIKE '%#{@state}%' AND weight_min <= '#{@power_generator.cubic_weight}' AND weight_max >= '#{@power_generator.cubic_weight}'")
   end
 
 end

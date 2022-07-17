@@ -1,0 +1,36 @@
+<h1 class="searcher gradient" style="padding: 20px 0px 10px 20px;">Detalhes sobre o produto:<%= @power_generator.name.upcase %> </h1>
+ <div class="container" >
+      <div class="box card power_generator-card">
+        <%= image_tag @power_generator.image_url, class: 'power_generator-card__img' %>
+        <div class="power_generator-card__body">
+          <p class="power_generator-card__price"><%= number_to_currency(@power_generator.price, unit: "R$ ", precision: 2, :separator => ",", :delimiter => ".") %></p>
+          <p><strong>Tipo de estrutura: </strong><%= @power_generator.structure_type %></p>
+          <p><strong>Quilowatt Pico: </strong><%= @power_generator.kwp %>kWp</p>
+          <p><strong>Dimensões: </strong><%= @power_generator.height %>m x <%= @power_generator.width %>m x <%= @power_generator.lenght %>m</p>
+          <p><strong>Peso: </strong><%= @power_generator.weight %></p>
+          <p><strong>Peso Cubado: </strong><%= @power_generator.cubic_weight %></p>
+          <p><strong>Descrição: </strong><%= @power_generator.description %></p>
+        </div>
+      </div>
+  </div>
+
+<section id= calculated-freight style= "padding: 100px 0px 0px 150px;">
+  Frete total:
+  
+</section>
+
+
+<section id='freight'style= "padding: 100px 0px 0px 150px;">
+      <%= form_with(url: check_freight_power_generators_path(@power_generators), method: :get, local: true) do |form| %>
+        <div> Consultar novo frete:</div>
+        <div>
+          <%= form.label :cep, 'CEP' %>
+          <%= form.text_field :cep, :placeholder => "17560057" %>
+          <%= form.hidden_field :power_generator_id, value: @power_generator.id %> 
+          <%= form.submit "Calcular" %>
+        </div>
+      <% end %>
+</section>
+
+
+<h4 style="padding: 200px 0px 0px 0px; text-align: center "><%= link_to "Voltar", root_path%> </h4> 
