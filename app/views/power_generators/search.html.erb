@@ -1,0 +1,18 @@
+<h1 class="searcher gradient" style="padding: 20px 20px 10px 250px;">Resultados da Pesquisa:</h1>
+<% if @power_generators.any?%>
+    <div class="container" >
+    <% @power_generators.each do |power_generator| %>
+      <div class="box card power_generator-card">
+        <%= image_tag power_generator.image_url, class: 'power_generator-card__img' %>
+        <div class="power_generator-card__body">
+          <h2><%= power_generator.name.upcase %></h2>
+          <p class="power_generator-card__price"><%= number_to_currency(power_generator.price, unit: "R$ ", precision: 2, :separator => ",", :delimiter => ".") %></p>
+          <p><strong><%=PowerGenerator.human_attribute_name(:description)%>: </strong><%= power_generator.description %></p>
+        </div>
+      </div>
+    <% end %>
+     <div style="padding: 300px 0px 0px 0px; text-align:justify;"><%= link_to "Voltar", root_path%> <div>
+  </div>
+<% else %>
+  <p>Não foi encotrado nenhum gerador com os parametros inseridos.</p>
+<% end %>
