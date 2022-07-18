@@ -7,10 +7,7 @@ class CheckCep
       response_body = JSON.parse(response.body)
       @state = response_body['uf']
     else
-      raise ArgumentError, 'A API não está disponível'
+      return 400
     end
-  rescue StandardError => e
-    puts "Error: #{e.message}"
-    'SP'
   end
 end

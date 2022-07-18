@@ -10,8 +10,7 @@ class PowerGeneratorsController < ApplicationController
 
   def check_freight
     @power_generator = PowerGenerator.find(params[:power_generator_id])
-    @state = CheckCep.check_api(params[:cep])
-    @best_freight = check_best
+    @best_freight = check_best  
   end
 
 
@@ -39,14 +38,16 @@ private
 def check_best
   @power_generator = PowerGenerator.find(params[:power_generator_id])
   @state = CheckCep.check_api(params[:cep])
-  #binding.pry
-  if @power_generator.weight <= @power_generator.cubic_weight
+  if @state == 400
+    return redirect_to @power_generator, notice: 'Erro! Cep inválido' 
+  end
+  if @power_generator.weight <= @power_generator.cubic_weight && @state != 400
     @best_freight = Freight.find_by("state LIKE '%#{@state}%' AND weight_min <= '#{@power_generator.weight}' AND weight_max >= '#{@power_generator.weight}'")
     return @best_freight.cost
-  elsif @power_generator.weight >= @power_generator.cubic_weight
+  elsif @power_generator.weight >= @power_generator.cubic_weight && @state != 400
     @best_freight = Freight.find_by("state LIKE '%#{@state}%' AND weight_min <= '#{@power_generator.cubic_weight}' AND weight_max >= '#{@power_generator.cubic_weight}'")
     return @best_freight.cost.truncate(2)
   else
-    redirect_to power_generator_path(@power_generator), notice: 'Erro! Não foi possível calcular o frete'
+    redirect_to @power_generator, notice: 'Erro! Não foi possível calcular o frete'
   end
 end

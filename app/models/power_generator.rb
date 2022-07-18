@@ -20,5 +20,5 @@ class PowerGenerator < ApplicationRecord
     self.cubic_weight = (height*width*lenght * weight_factor)
     self.save
   end
-
+  
 end

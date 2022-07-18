@@ -1,107 +1,99 @@
-# Portal Solar - Dev Test
+<h1 align="center">Buscador de Geradores de Energia Solar </h1>
 
-## Teste para vagas de Desenvolvimento
+<div align="center"><img src="app/assets/images/readme/solar_panel.png"></div>
 
+<div align="center"><img src="https://badgen.net/badge/Ruby/Versão%202.6.3/red?icon=ruby"> <img  align="justify" src="https://img.shields.io/badge/Rails-Versão%205.2-red"> <img  align="justify" src=https://img.shields.io/badge/Status-Em%20desenvolvimento-brightgreen> </div>
 
+____
+### <p align="justify"> Tabela de Conteúdos 🗺️: </p>
+  🔹	[Descrição do projeto](#descrição-do-projeto) </br>
+  🔹	[Funcionalidades](#funcionalidades)</br>
+  🔹	[Gems utilizadas](#gems-utilizadas)</br>
+  🔹	[Como instalar a aplicação](#como-instalar-a-aplicação)</br>
+  🔹	[Configurando o banco de dados](#configurando-o-banco-de-dados)</br>
+  🔹	[Layout da aplicação](#layout-da-aplicação)</br>
+  🔹	[Ideias para implementações futuras](#ideias-para-implementações-futuras)</br>
 
-### Introdução
+  #### <p align="justify"> Descrição do projeto </p>
+___
+  Uma plataforma que permite a visualização e busca, de forma simples ou avançada, de geradores de energia de um e-commerce de geradores, bem como consultar o valor do frete com base no CEP.
 
-Aqui na Portal Solar utilizamos a linguagem Ruby juntamente com o framework Rails, famoso "RoR",
-em grande parte das soluções que desenvolvemos para nossos produtos, mais pensamos muito na usabilidade 
-dos nossos times e clientes, assim os frameworks JavaScripts são vistos com bons olhos.
+  #### <p align="justify"> Funcionalidades da aplicação </p>
+___
 
-Este teste tem foco nestes quesitos, onde buscamos profissionais com capacidade de abstração, organização,
-e resolução de problemas.
+  - [X] Geradores ordenados pela hierarquia: Preço → Nome → Quilowatt Pico (kWp)
+  - [X] Lista de geradores organizada em páginas, contendo grupos de no máximo 6  por página.
+  - [x] O peso cubado de um gerador é calculado e salvo automaticamente.
+  - [X] Usuário pode buscar geradores através de uma pesquisa simples de um parâmetro ou uma pesquisa avançada com mais opções de parâmetros.
+  - [X] Usuário pode inserir cep para verificar o custo de frete de um gerador.
+  - [x] Calculo do frete otimizado para buscar o menor custo de frete entre o Peso líquido e Peso Cubado.
 
+ #### <p align="justify"> Linguagens, Gems e Frameworks utilizados 🛠️⚙️ : </p>
+___
+- [Ruby 2.6.3](https://ruby-doc.org) - Linguagem utilizada
+- [Rails 5.2](https://guides.rubyonrails.org) - Framerwork utilizado para desenvolver o projeto
+- [Docker](https://docs.docker.com) - Utilizado para modularização da aplicação
+- [Rspec](https://github.com/rspec/rspec-rails) - Utilizado para os testes da aplicação
+- [Capybara](https://github.com/teamcapybara/capybara#using-capybara-with-rspec) -Auxilia o rspec durante os testes
+- [Pry-byebug](https://github.com/deivid-rodriguez/pry-byebug) - Utilizada para debugar o código
+- [Shoulda-Matchers](https://github.com/thoughtbot/shoulda-matchers) - Utilizada para facilitar testes de validações de models
+- [Kaminari](https://github.com/kaminari/kaminari)- Utilizada para fazer a paginação da aplicação
+- [Faraday](https://lostisland.github.io/faraday/)- Utilizada para comunicações de API
 
-#### O que procuramos?
+####  <p align="justify"> Como instalar a aplicação 🔌: </p>
+___
 
-Queremos profissionais que não apenas saibam escrever códigos, mais sim resolver problemas com eles, que não fiquem presos apenas a 
-"sopa de letrinhas" mais consigam entregar soluções para os diversos problemas que surgem todos os dias aqui no Portal Solar. 
-Estas soluções nem sempre é escrever um código Ruby por exemplo!
-Leia com atenção pois a compreensão faz parte do processo, faça o máximo que conseguir do requisitos do Teste e não deixe de enviar no prazo estabelicido, isto já faz parte de sua avaliação.
+Clone o repositório em seu computador: 
 
-Good Luck!
+    $ git clone  git@github.com:jonathandeoliveira/portal-solar-dev-test.git
 
+######  <p align="justify"> Preparando o ambiente: </p>
 
+Instale as depencedias do sistema
 
-#### Objetivo geral
+    $ bundle install
 
-Implementar novas funcionalidades ao sistema de busca, recomendação e melhor custo de frete para geradores de energia.
+Será necessário utilizar o docker para nos fornecer postgresql para conectarmos ao banco de dados, execute o comando:
 
-### O que precisa usar 
-
-Este projeto utiliza:
-
-- Ruby versão `2.6.3`
-- Rails versão `5.2`
-
-O banco de dados já está com o schema "pré pronto" e algumas informações necessárias o projeto.
-Execute os comandos abaixo:
-
-`$ bundle exec rails db:create db:migrate db:seed`
-
-
-#### Requisitos 
-
-* Implementar uma funcionalidade de recomendação geradores de energia para o usuário utilizando os campos que existem no modelo de PowerGenerator. Em outras palavras, o usuário poderá informar alguns dados que possa ser utilizado para recomendar estes geradores de energia. Não se prenda a quantos e quais informações o usuário poderá informar. O algoritmo de escolha é livre, fique a vontade.
-
-* Implementar função para consultar o custo do frete (_*model*_ Freight) baseado no CEP informado. Ao clicar no produto deve ser abrir uma modal, uma nova tela ou uma partial para tal função.
-Dica: Utilize alguma API pública para descobrir cidade e estado através do CEP, irá ajudar no processo de precificação do frete. 
-
-* Implementar um filtro simples que ordene por preço na tela inicial, trazendo os resultados ordenados por nome e adicionando paginação para mostrar somente 6 itens por página.
-
-* Aplicar um segundo filtro baseado no anterior, ordenando por KWP.
-
-* Implementar função para calcular o peso cubado do produto e persistir isso no banco.
-Dica: [Cálculo para o peso cubado](https://blog.cargobr.com/cubagem-sem-misterio/) -> `Comprimento x Largura x Altura x Fator cubagem (300)`
-
-* Modificar consulta do custo do frete afim de trazer o valor com o PESO MENOR do produto, ou seja, o valor do frete não importa e sim o peso do produto.
-Dica: Verifique o valor baseado no peso do produto ou no peso cubado. (menor = melhor)
-
-* Fazer ao menos testes unitários para serviços e métodos criados para a recomendação de geradores, consulta de CEP e a busca simples por nome, mas não se limitando, testes são sempre bem vindos.
+    $ docker-compose up
 
 
-### Sai na Frente
+#### Configurando banco de dados 💾:
+___
 
-* Esquece o Rails para Front End e faça o mesmo em React, topa?
+Execute o comando seed no seu console para popular o banco de dados:
 
+    $ bundle exec rails db:create db:migrate db:seed
 
-#### Dicas marotas 
+###### Inicie o servidor:
 
-* Utilize as `gems` que achar necessário, porém o algoritmo de recomendação e melhor custo de frete será de sua responsabilidade.
+    $ bundle exec rails server
 
-* A descrição do produto também contém informações interessantes para recomendação de geradores de energia.
+###### Rodando os testes:
 
-* As buscas e consulta de frete podem ser implementadas de maneira assíncrona via JavaScript, sem a necessidade de recarregar a página cada
-vez que o usuário realizar uma buscar.
+    $ bundle exec rspec
 
-* Utilizar alguma plataforma para fazer deploy e deixar o projeto rodando, podendo ser o heroku por exemplo.
+#### Layout da aplicação 🔭:
+___
+###### Página inicial:
+  <img src="app/assets/images/readme/homepageAdvSearch.jpg">
 
-* Docker, Dockerfile, docker compose, images, volumes, network, CI, CD, enfim, gostamos muitos de tudo isso!
+###### Detalhes de um gerador:
+  <img src="app/assets/images/readme/product_detail.jpg">
+  <img src="app/assets/images/readme/product_detai_with_freightl.jpg">
 
-* Crie um repositório para a solução desenvolvida no Github.
+###### Página de busca:
+  <img src="app/assets/images/readme/search_reasult.jpg">
+  <img src="app/assets/images/readme/search_reasult_not_found.jpg">
 
+### Ideias para implementações futuras 📖:
+___
+* Utilização da Gem FriendlyId para urls personalizadas
+* Melhorar o front-end da aplicação
+* Adicionar mais parâmetros no sistema de busca avançada
+* Implementação de frete através de matriz de distância
 
-#### Você será avalidado como:
+### Contribuintes 👨‍💻👩‍💻 : 
 
-* Cumprimento dos requisitos.
-
-* Testes, caso faça.
-
-* Extras sugeridos por nós ou que tenha feito, desde que justifique o uso, assim podemos análisar e validar.
-
-* Organização e estrutura dos códigos implementados.
-
-
-
-### Ao Finalizar
-
-Envie seu projeto, links, repositório, o que julgar necessário para avaliação do teste para o email:
-
-*jonata.william@portalsolar.com.br*
-
-
-Assunto: Dev Teste - Meu Nome
-
-
+| [<img src="https://avatars.githubusercontent.com/u/56161566?v=4v" width=115><br><sub>Jonathan de Oliveira Gonçalves</sub>](https://github.com/jonathandeoliveira) |
+| :---: 

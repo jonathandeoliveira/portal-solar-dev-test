@@ -8,7 +8,7 @@
           <p><strong>Quilowatt Pico: </strong><%= @power_generator.kwp %>kWp</p>
           <p><strong>Dimensões: </strong><%= @power_generator.height %>m x <%= @power_generator.width %>m x <%= @power_generator.lenght %>m</p>
           <p><strong>Peso: </strong><%= @power_generator.weight %></p>
-          <p><strong>Peso Cubado: </strong><%= @power_generator.cubic_weight %></p>
+          <p><strong>Peso Cubado: </strong><%= @power_generator.cubic_weight.truncate(2) %></p>
           <p><strong>Descrição: </strong><%= @power_generator.description %></p>
         </div>
       </div>

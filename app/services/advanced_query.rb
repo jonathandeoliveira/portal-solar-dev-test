@@ -9,13 +9,13 @@ class AdvancedQuery
 
   def self.query
     query = []
-
+    
     if @params[:name].present?
       query << "lower(name) LIKE '%#{@params[:name].downcase}%'"
     end
 
     if @params[:manufacturer].present? 
-      query << "lower(manufacturer) LIKE '%#{@params[:manufacturer]}%'"
+      query << "lower(manufacturer) LIKE '%#{@params[:manufacturer].downcase}%'"
     end
 
    if @params[:structure_type].present?

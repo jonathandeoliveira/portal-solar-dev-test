@@ -22,13 +22,21 @@ describe 'Usuário pesquisa um gerador' do
     expect(page).to have_link "Voltar"
   end
 
-  xit 'pela busca avançada' do
+  it 'Pela busca simples, com campo em branco' do
     visit root_path
-    within('div#advanced-search') do
-      choose('advancedSearch').click
-    end
-    expect(page).to have_field 'Nome'
-    expect(page).to have_field 'Fabricante'
-    expect(page).to have_button 'Pesquisa Avançada'
+    fill_in 'o que procura?', with: ''
+    click_on 'Pesquisar'
+
+    expect(page).to have_content 'Campo de pesquisa em branco'
   end
+
+  it 'Pela busca simples, e não encontra nenhum resultado' do
+    visit root_path
+    fill_in 'o que procura?', with: 'AXSRRFSAEA'
+    click_on 'Pesquisar'
+
+    expect(page).to have_content 'Resultados da Pesquisa:'
+    expect(page).to have_content 'Não foi encotrado nenhum gerador com os parametros inseridos.'
+  end
+
 end
