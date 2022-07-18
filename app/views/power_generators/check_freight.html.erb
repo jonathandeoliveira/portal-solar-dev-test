@@ -14,14 +14,10 @@
       </div>
   </div>
 
-<section id= calculated-freight style= "padding: 100px 0px 0px 150px;">
-  Frete total:
-  
-</section>
-
 
 <section id='freight'style= "padding: 100px 0px 0px 150px;">
       <%= form_with(url: check_freight_power_generators_path(@power_generators), method: :get, local: true) do |form| %>
+       <h4>Frete Total:<%= number_to_currency(@best_freight, unit: "R$ ", precision: 2, :separator => ",", :delimiter => ".")%></h4>
         <div> Consultar novo frete:</div>
         <div>
           <%= form.label :cep, 'CEP' %>
